@@ -1,0 +1,215 @@
+<div class='medicals__navbar flex justify-between items-center py-3'>
+  <div class='medicals__navbar__left flex flex-start items-center flex-1'>
+    <a href="/" class='medicals__navbar__brand flex flex-start items-center'>
+      <svg
+          class='w-6 h-6'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'
+          xmlns='http://www.w3.org/2000/svg'
+        ><path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            stroke-width='2'
+            d='M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z'
+          ></path></svg>
+        <span class='self-center text-xl font-semibold whitespace-nowrap'>MedicalS</span>
+    </a>
+    <div class='app-container__input medicals__navbar__search md:w-[600px] mx-5'>
+      <input
+        type='search'
+        name='search'
+        id='search'
+        placeholder='Nhập tên bác sĩ, tên cuộc họp, ...'
+        class='w-full hidden md:block'
+      />
+      <button type='submit'>
+        <i class='fa-solid fa-magnifying-glass app-container__icon'></i>
+      </button>
+    </div>
+  </div>
+  <div class='medicals__navbar__right flex-2 flex items-center flex-end'>
+   
+    <div class='medicals__navbar__profile' style='display:flex'>
+      {{! check login }}
+
+      {{#if userID}}
+              {{!-- used for notification --}}
+              <p id="userID" hidden>{{userID}}</p>
+           
+            <div id="displayNotification" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full max-h-[80vh] ">
+              {{!-- {{#each notifications}}
+              <div id="notification-container">
+                  <h1 style="color:red">{{this.title}}</h1> 
+                  <button style="color:blue">Xem</button>
+                  <p>{{this.content}}</p>  
+              </div>
+              {{/each}} --}}
+              <div class="relative w-full h-full max-w-2xl p-4 md:h-auto ">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow ">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                        <h3 class="text-xl font-semibold text-gray-900 e">
+                            Thông báo
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="displayNotification">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="px-4 pb-4">
+                      {{#if notifications}}
+                        {{#each notifications}}
+                        <a href="{{this.link}}">
+                        <div id="notification-container" class="hover:bg-gray-200 py-6 px-2 rounded-lg">
+
+                          <h3 class="font-bold mb-1">{{this.title}}
+                            <p class="font-thin mb-1">{{this.createdAt}}</p>
+                          </h3> 
+                          {{!-- <button style="color:blue">Xem</button> --}}
+                          <p class="text-sm">{{this.content}}</p>  
+                        </div>
+                        </a>
+                        {{/each}} 
+                      {{else}}
+                        <p class="text-sm">Không có thông báo nào</p> 
+                      {{/if}}
+                    </div>
+                    <!-- Modal footer -->
+                </div>
+            </div>
+            
+            </div>
+
+            <!-- Link to open the modal -->
+            <a href='#' class='medicals__navbar__link flex items-center'  data-modal-toggle="displayNotification">
+              <i class='app-container__icon fa-solid fa-bell mr-8'></i>
+              {{!-- <p id="totalNotification">0</p> --}}
+            </a>
+           
+          {{#if userLogin}}
+              <a
+                id='dropdownDefault'
+                data-dropdown-toggle='dropdown'
+                class='cursor-pointer'
+                type='button'
+              >
+                <img class='w-[30px] h-[30px] rounded-full' src='../uploads/{{image}}' />
+              </a>
+
+              <div
+                id='dropdown'
+                class='hidden z-10 w-44 bg-white rounded-lg divide-y divide-gray-100 shadow'
+              >
+                <ul class='py-1 text-sm text-white bg-[#1a355b]' aria-labelledby='dropdownDefault'>
+
+                  <li>
+                    <a
+                      href='/user'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Trang cá nhân</a>
+                  </li>
+                    <li>
+                    <a
+                      href='/user/transactionHistory'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Lịch sử giao dịch</a>
+                  </li>
+                  <li>
+                    <a
+                      href='/auth/logout'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Đăng xuất</a>
+                  </li>
+                </ul>
+              </div>
+             {{else}}
+                <a
+                id='dropdownDefault'
+                data-dropdown-toggle='dropdown'
+                class='cursor-pointer'
+                type='button'
+              >
+                <img class='w-[30px] h-[30px] rounded-full' src='../uploads/{{image}}' />
+              </a>
+
+              <div
+                id='dropdown'
+                class='hidden z-10 w-44 bg-white rounded-lg divide-y divide-gray-100 shadow'
+              >
+                <ul class='py-1 text-sm text-white bg-[#1a355b]' aria-labelledby='dropdownDefault'>
+
+                  <li>
+                    <a
+                      href='/doctor'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Trang cá nhân</a>
+                  </li>
+                    <li>
+                    <a
+                      href='/doctor/workHistory'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Lịch sử làm việc</a>
+                  {{!-- </li>
+                    <li>
+                    <a
+                      href='/doctor/resume'
+                      class='block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                    >Hồ sơ</a>
+                  </li> --}}
+                  <li>
+                    <a
+                      href='/auth/logout'
+                      class='block py-2 px-4 hover:bg-gray-600 hover:text-white'
+                    >Đăng xuất</a>
+                  </li>
+                </ul>
+              </div>
+              {{/if}}
+      {{else}}
+        <div class='authNotConfirm-container'>
+          <a href='/auth/login'>Đăng nhập</a>
+        </div>
+      {{/if}}
+      <!-- Dropdown Structure -->
+
+    </div>
+  </div>
+</div>
+    {{!-- notification when booking --}}
+    <div class="absolute z-50 right-4">
+      <div id="toast-default" class="text-white mr-16 mt-8 notification-container  flex items-center w-full max-w-xs p-4 text-gray-500 rounded-lg shadow text-gray-400 bg-gray-800 animate__animated animate__bounceIn" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8  rounded-lg bg-blue-800 text-blue-200">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg>
+        </div>
+        <div class="text-white ml-3 text-sm font-normal" id="message-notification"></div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5  inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700" data-dismiss-target="#toast-default" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    {{!-- notification when new message --}}
+    <div class="absolute z-50 right-4">
+      <div id="toast-simple" class="text-white mr-16 mt-8 notification-container-inbox  flex items-center w-full max-w-xs p-4  rounded-lg shadowtext-gray-400 bg-gray-800 animate__animated animate__bounceIn" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg>
+        </div>
+        <div class="ml-3 text-sm font-normal" id="message-inbox-display"></div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 text-white hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700" data-dismiss-target="#toast-simple" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    {{!-- <div class="absolute z-50 right-0">
+      <div id="toast-simple" class="mr-16 mt-8 notification-container-inbox  flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+        <svg class="w-5 h-5 text-blue-600 dark:text-blue-500" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"></path></svg>
+        <div class="pl-4 text-sm font-normal" id="message-inbox-display"></div>
+      </div>
+    </div> --}}
+      <script src="../socket.io/socket.io.js"></script>
+      <script src = "../script/notification.js"></script>

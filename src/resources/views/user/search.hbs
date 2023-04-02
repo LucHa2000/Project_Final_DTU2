@@ -1,0 +1,67 @@
+  
+  {{>header}}
+  
+  <div class="container-user">
+    <div class="row">
+      <div class="col s6 m3 ">
+          <div class="left-home">
+            {{>shortcuts}}
+    </div>  
+      </div>
+      <div class="search-right col m9">
+         <div class="mid-home ">
+       <div class="row">
+    <div id="profile" class="col s12">
+    <ul >
+      <div class="search-container">
+       <a class="btn btn-active " href="/pageSearch/{{search}}">People</a>
+      <a class="btn btn-active" href="/pageSearchGroup/{{search}}">Group</a>
+      </div>
+    {{#each accounts}}
+    <li class="">
+        <div class="collapsible-header search-item">
+          <div class="left">
+            <img class="circle"src="../uploads/{{this.avatar}}"/>
+            <h8 style="padding-right:50px">{{this.username}}
+            </h8>
+          </div>
+          <div class="right">
+            <a class="btn btn-active" onclick="return alert('action success !')"  href="/{{followCustomer follow}}/{{this.username}}" style="margin-left:20px">{{followCustomer follow}}</a>
+              <a class= "btn btn-active" href="/friends/{{this.username}}" style="margin-left:20px">Information</a>
+          </div>
+        
+        </div>
+    </li> 
+    {{/each}}
+      {{#each crews}}
+    <li>
+        <div class="collapsible-header search-item">
+          <div class="left">
+            <img class="circle" src="../uploads/{{this.avatar}}"/>
+            <h8 style="padding-right:50px">{{this.crew_name}} 
+            </h8>
+          </div>
+       <h10 style="padding-right:50px">admin: {{this.admin}} 
+       </h10>
+       <div class="right">
+          <a class= "btn btn-active" onclick="return alert('action success !')"  href="/{{followGroup this.join}}/{{this.crew_name}}" style="margin-left:20px">{{followGroup this.join}}</a>
+        </div>
+        
+        </div>
+    </li> 
+    {{/each}}
+  </ul>
+ </div>
+    </div>
+    <div id="pages" class="col s12"></div>
+    <div id="groups" class="col s12"></div>
+  </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+ 
+
+    
+  

@@ -1,0 +1,147 @@
+
+<div class="flex h-full">
+  {{>header_admin}} 
+  <div class="container mt-2 ml-2 w-full h-full centers">
+    
+        <div class="mb-4 border-b border-gray-200 w-full text-center mt-4">
+          <h4 class="font-bold text-gray-1000 text-center text-xl">Cập nhật tài khoản</h4>
+        </div>
+<div class="app-section__controls mb-4 w-full">
+        <a href="/admin/account" class="inline-flex items-center py-2 px-4 mr-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+          Trở về
+        </a>
+      </div>
+        <div class="p-4 bg-gray-50 rounded-lg max-h-[90vh] min-h-[90vh] overflow-y-scroll">
+
+        <div class="">
+          <form class="" method="POST" action="/account/{{account.id}}/edit" autocomplete="off">
+            <div class="is-row">
+              <div class="is-full">
+                <label class="block mb-2 text-sm font-bold text-gray-900 " for="email">Email *</label>
+                <input id="email" type="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="email" value="{{account.email}}" required="required" />
+                <span class="helper-text" data-error="Email is invalid!" data-success=""></span>
+              </div>
+              
+            </div>
+            <div class="is-row">
+              <div class="input-field is-half">
+                <label for="firstName" class="block mb-2 text-sm font-bold text-gray-900 ">Họ *</label>
+                <input id="firstName" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="firstName" value="{{account.firstName}}" />
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+              <div class="input-field ml-4 is-half">
+                  <label for="lastName" class="block mb-2 text-sm font-bold text-gray-900 ">Tên *</label>
+                <input id="lastName" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="lastName" required="required" value="{{account.lastName}}" />
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row flex items-center">
+              <label class="block text-sm font-bold text-gray-900" for="">Giới tính *</label>
+              <div class="flex ml-5">
+                <div class="flex items-center mr-4">
+                    <input id="male-radio" type="radio" value="1" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 " {{gender account.gender 1}}>
+                    <label for="male-radio" class="ml-2 text-sm font-medium text-gray-900 ">Nam</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="female-radio" type="radio" value="2" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 " {{gender account.gender 2}}>
+                    <label for="female-radio" class="ml-2 text-sm font-medium text-gray-900 ">Nữ</label>
+                </div>
+                
+              </div>
+            </div>
+            <div class="is-row">
+              <div class="input-field is-half">
+                <label for="birthday" class="block mb-2 text-sm font-bold text-gray-900 ">Số điện thoại</label>
+                <input id="phoneNumber" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="phoneNumber" required="required" value="{{account.phoneNumber}}"  />
+                
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+              <div class="input-field is-half ml-4">
+                <label for="address" class="block mb-2 text-sm font-bold text-gray-900">Địa chỉ</label>
+                <input id="address" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="address"  value="{{account.address}}" />
+                
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row flex items-center">
+              <label class="block text-sm font-bold text-gray-900" for="">Loại tài khoản *</label>
+              <div class="flex ml-5">
+                <div class="flex items-center mr-4">
+                    <input id="admin-radio" type="radio" value="1" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 " {{checked account.roleID 1}}>
+                    <label for="admin-radio" class="ml-2 text-sm font-medium text-gray-900 ">Administrator</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="doctor-radio" type="radio" value="2" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 "  {{checked account.roleID 2}}>
+                    <label for="doctor-radio" class="ml-2 text-sm font-medium text-gray-900 ">Bác sĩ</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="user-radio" type="radio" value="3" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 "  {{checked account.roleID 3}}>
+                    <label for="user-radio" class="ml-2 text-sm font-medium text-gray-900 " >Người dùng</label>
+                </div>
+                
+              </div>
+            </div>
+            <div id="doctor-inputs">
+
+              <div class="is-row">
+
+                <div class="is-full">
+                 
+                <select name="clinic" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  <option value="{{clinicOfDoctor.id}}" selected>{{clinic clinicOfDoctor.name}}</option>
+                  {{#each clinics}}
+                  <option  value="{{this.id}}">{{this.name}}</option>
+                  {{/each}}
+                </select>
+                  <span class="helper-text" data-error="Email is invalid!" data-success=""></span>
+                </div>
+              </div>
+              <div class="input-field is-half">
+                <label name="fee" for="fee" class="block mb-2 text-sm font-bold text-gray-900 ">Phí*</label>
+                <input id="fee" name="fee" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  autocomplete="0" value="{{account.fee}}">
+                
+                <span class="helper-text" data-error="" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row">
+              <div class="input-field col s10 m10 push-l1 mr-bottom">
+                <button class=" btn--primary waves-effect waves-light btnCreate" type="submit">Cập nhật
+                </button>
+              </div>
+            </div>
+          </form>
+          </div>
+        </div>
+        <br>
+  </div>
+</div>
+<script>
+  $('#doctor-inputs').hide();
+  $(document).ready(function(){
+     if ($('#doctor-radio').is(':checked')) {
+      $('#doctor-inputs').show();
+    }
+  });
+  $('#admin-radio').on('change', function () {
+    if ($('#admin-radio').is(':checked')) {
+      $('#doctor-inputs').hide();
+    }
+  });
+  $('#user-radio').on('change', function () {
+    if ($('#user-radio').is(':checked')) {
+      $('#doctor-inputs').hide();
+    }
+  });
+   $('#doctor-radio').on('change', function () {
+    if ($('#doctor-radio').is(':checked')) {
+      $('#doctor-inputs').show();
+    }
+  })
+  
+</script>
+
+
+
+  

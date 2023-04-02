@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title></title>
+
+    <!-- import the webpage's stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+
+    <!-- import the webpage's javascript file -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.20.0/dist/axios.min.js"></script>
+    <script src="https://cdn.stringee.com/sdk/web/2.2.1/stringee-web-sdk.min.js"></script>
+  </head>
+  <style>
+    .header-highlight {
+    color: #ff4954;
+    }
+
+    .info {
+    padding: 1.5rem;
+    }
+
+    .container {
+    padding-top: 1rem;
+    }
+
+    #videos {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    }
+
+    #videos video {
+    flex: 1 1 50%;
+    padding: 0;
+    min-width: 0;
+    }
+  </style>
+  <body>
+
+    {{>nav}}
+    <div class="container has-text-centered" id="app">
+      <h1 class="title">
+
+        <span class="header-highlight">
+         Gọi Video Medicals 
+        </span>
+      </h1>
+      <span>{{roomId}} {{roomToken}}</span>
+      <div>
+          <button v-if="!roomId"  @click="createRoom" class="button is-info">
+          Tạo Phòng
+        </button>
+        <button v-if="!roomId" @click="joinRoom" class="button is-primary">
+          Thạm Dự Phòng
+        </button>
+        <button v-if="roomId" class="button is-info" @click="publishVideo(true)">
+          Chia Sẽ Màn Hình
+        </button>
+      </div>
+      
+      <div v-if="roomId">
+        <p >
+           Bạn có thể gửi link này cho bạn bè :
+           <a v-bind:href="roomUrl" target="_blank" id="roomUrl"> {{roomUrl}}  </a>
+          
+        </p>
+        
+        <p>
+          
+          <strong>hoặc gửi roomId cho bạn bè : </strong>
+          
+          <p id="roomId"> {{roomId}} </p>
+        </p>
+        
+      </div>
+      
+    </div>
+    
+    <div class="container">
+      <div id="videos">
+      
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="../script/callVideoAPI.js"></script> 
+  <script type="text/javascript" src="../script/handleCallVideo.js"></script> 
+</html>

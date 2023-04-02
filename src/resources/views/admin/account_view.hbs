@@ -1,0 +1,286 @@
+
+<div class="flex h-full">
+
+  {{>header_admin}}
+  
+    <div class="ml-2 w-full h-full mt-2">
+      <div class="mb-4 border-b border-gray-200 w-full ">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center justify-center w-full" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class=" font-bold text-gray-1000 inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 " id="account-management-tab" data-tabs-target="#account-management" type="button" role="tab" aria-controls="#account-management" aria-selected="false">Quản lý tài khoản</button>
+            </li>
+            <li class="mr-2 " role="presentation">
+                <button class="font-bold text-gray-1000 inline-block p-4 rounded-t-lg border-b-2" id="add-account-tab" data-tabs-target="#add-account" type="button" role="tab" aria-controls="#add-account" aria-selected="false">Thêm tài khoản</button>
+            </li>
+        </ul>
+      </div>
+      <div id="myTabContent">
+        <div class="hidden p-4 bg-gray-50 rounded-lg max-h-[90vh] min-h-[90vh] overflow-y-scroll" id="account-management" role="tabpanel" aria-labelledby="account-management-tab">
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <span>{{message}}</span>
+             {{>search}} 
+            <table class="w-full text-sm text-left text-gray-500 mt-4">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          No
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Email
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Họ Tên
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Giới tính
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Số điện thoại
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Địa chỉ
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Loại tài khoản
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold ">
+                          Trạng thái
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          
+                      </th>
+                  </tr>
+              </thead>
+              <tbody id="myTable">
+                {{#each accounts}}
+                  <tr class="bg-white border-b  hover:bg-gray-50 ">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                        {{sum @index}}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{{this.email}}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{{this.firstName}}} {{{this.lastName}}} 
+                    </td>
+                    <td class="px-6 py-4">
+                        {{{convertGender this.gender}}} 
+                    </td>
+                    <td class="px-6 py-4">
+                        {{{this.phoneNumber}}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{{this.address}}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{{ accType this.roleID}}}
+                    </td>
+                    <td class="px-6 py-4 {{{ styleStatus this.status}}}">
+                        {{{ status this.status}}}
+                    </td>
+                    <td class="flex">
+                      <a data-position="top" data-tooltip="Status" href="/account/{{{this.status}}}/{{{this.id}}}" class="{{btnStatus this.account_status}} tooltipped btn btn-small   blue-grey "><i class="material-icons {{styleStatus this.status}} font-bold">{{btnStatus this.status}}</i></a>
+                      <a data-position="top" data-tooltip="Update" href="/account/{{{this.id}}}" class="btn btn-small tooltipped  yellow darken-3 button-radius "><i class="material-icons text-yellow-600">system_update_alt</i></a>
+
+                    <!-- Modal Trigger -->
+                      <a data-id="{{{this.id}}}" class="btn_delete text-red {{hidden this.roleID}}" type="button" data-modal-toggle="popup-modal" href="#popup-modal"><i class="material-icons text-red-600">delete</i></a>
+                    </td>
+                  </tr>
+                  {{else}}
+                    <tr>
+                      <td colspan="6" class="center text-center">
+                          Không có tài khoản
+                      </td>
+                    </tr>
+                  {{/each}}  
+              </tbody>
+            </table>
+            <div class="flex justify-end w-full mt-8">
+            </div>
+          </div>
+        </div>
+        <div class="hidden p-4 bg-gray-50 rounded-lg max-h-[90vh] min-h-[90vh] overflow-y-scroll" id="add-account" role="tabpanel" aria-labelledby="add-account-tab">
+          <form class="" action="/account/storeAccount" method="POST" autocomplete="off">
+            <div class="is-row">
+
+              <div class="is-full">
+                <label class="block mb-2 text-sm font-bold text-gray-900 " for="email">Email *</label>
+                <input id="email" type="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="email" required="required" />
+                <span class="helper-text" data-error="Email is invalid!" data-success=""></span>
+              </div>
+              
+            </div>
+            <div class="is-row">
+              <div class="input-field is-half">
+                <label for="firstName" class="block mb-2 text-sm font-bold text-gray-900 ">Họ *</label>
+                <input id="firstName" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="firstName" />
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+              <div class="input-field ml-4 is-half">
+                  <label for="lastName" class="block mb-2 text-sm font-bold text-gray-900 ">Tên *</label>
+                <input id="lastName" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="lastName" required="required" />
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row flex items-center">
+              <label class="block text-sm font-bold text-gray-900" for="">Giới tính *</label>
+              <div class="flex ml-5">
+                <div class="flex items-center mr-4">
+                    <input id="male-radio" type="radio" value="1" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 " checked>
+                    <label for="male-radio" class="ml-2 text-sm font-medium text-gray-900 ">Nam</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="female-radio" type="radio" value="2" name="gender" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
+                    <label for="female-radio" class="ml-2 text-sm font-medium text-gray-900 ">Nữ</label>
+                </div>
+                
+              </div>
+            </div>
+            <div class="is-row">
+              <div class="input-field is-half">
+                <label for="birthday" class="block mb-2 text-sm font-bold text-gray-900 ">Số điện thoại</label>
+                <input id="phoneNumber" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="phoneNumber" required="required" />
+                
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+              <div class="input-field is-half ml-4">
+                <label for="address" class="block mb-2 text-sm font-bold text-gray-900">Địa chỉ</label>
+                <input id="address" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="address" />
+                
+                <span class="helper-text" data-error="This field is required!" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row">
+              <div class="input-field is-half">
+                <label for="password" class="block mb-2 text-sm font-bold text-gray-900 ">Mật khẩu*</label>
+                <input id="password" type="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " name="password" required="required" minlength="6"
+                  autocomplete="new-password">
+                
+                <span class="helper-text" data-error="Invalid password, minimum length: 8" data-success=""></span>
+              </div>
+              <div class="input-field is-half ml-4">
+                <label for="confirm-password" class="block mb-2 text-sm font-bold text-gray-900 ">Nhập lại mật khẩu*</label>
+                <input id="confirm_password" type="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required="required">
+                
+                <span class="helper-text" data-error="Those passwords didn't match. Try again." data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row flex items-center">
+              <label class="block text-sm font-bold text-gray-900" for="">Loại tài khoản *</label>
+              <div class="flex ml-5">
+                <div class="flex items-center mr-4">
+                    <input id="admin-radio" type="radio" value="1" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 " checked>
+                    <label for="admin-radio" class="ml-2 text-sm font-medium text-gray-900 ">Administrator</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="doctor-radio" type="radio" value="2" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
+                    <label for="doctor-radio" class="ml-2 text-sm font-medium text-gray-900 ">Bác sĩ</label>
+                </div>
+                <div class="flex items-center mr-4">
+                    <input id="user-radio" type="radio" value="3" name="roleID" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
+                    <label for="user-radio" class="ml-2 text-sm font-medium text-gray-900 ">Người dùng</label>
+                </div>
+                
+              </div>
+            </div>
+            <div id="doctor-inputs">
+
+              <div class="is-row">
+
+                <div class="is-full">
+                 
+                <select name="clinic" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  <option selected>Khoa</option>
+                  {{#each clinics}}
+                  <option  value="{{this.id}}">{{this.name}}</option>
+                  {{/each}}
+                </select>
+                  <span class="helper-text" data-error="Email is invalid!" data-success=""></span>
+                </div>
+              </div>
+              <div class="input-field is-half">
+                <label name="fee" for="fee" class="block mb-2 text-sm font-bold text-gray-900 ">Phí*</label>
+                <input id="fee" name="fee" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  autocomplete="0">
+                
+                <span class="helper-text" data-error="" data-success=""></span>
+              </div>
+            </div>
+            <div class="is-row">
+              <div class="input-field col s10 m10 push-l1 mr-bottom">
+                <button class=" btn--primary waves-effect waves-light btnCreate" type="submit">Tạo
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  {{!-- model --}}
+
+<div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+    <div class="relative w-full h-full max-w-md p-4 md:h-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="popup-modal">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+            </button>
+            <div class="p-6 text-center">
+                <svg class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Bạn có chắc chắn muốn xóa tài khoản này không?</h3>
+                <a data-modal-toggle="popup-modal" type="button" class=" delete-agree text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2 " >
+                    Xóa bỏ
+                </a>
+                <button data-modal-toggle="popup-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>   
+
+{{!-- script --}}
+
+<script>
+      $('#doctor-inputs').hide();
+  $(document).ready(function(){
+      $(".btn_delete").on("click", function() {
+          var dataId = $(this).attr("data-id");
+            $(".delete-agree").attr("href", "/account/delete/"+dataId); // Set herf value
+      });      
+  });
+  $('#doctor-radio').on('change', function () {
+    if ($('#doctor-radio').is(':checked')) {
+      $('#doctor-inputs').show();
+    }
+  })
+  $('#admin-radio').on('change', function () {
+    if ($('#admin-radio').is(':checked')) {
+      $('#doctor-inputs').hide();
+    }
+  });
+  $('#user-radio').on('change', function () {
+    if ($('#user-radio').is(':checked')) {
+      $('#doctor-inputs').hide();
+    }
+  });
+  var password = document.getElementById("password")
+        var confirm_password = document.getElementById("confirm_password");
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords don't match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+
+  password.onchange = validatePassword;
+
+  confirm_password.onkeyup = validatePassword;
+
+</script>
+
+   
+

@@ -1,0 +1,142 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="#" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="#" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon  fa-solid fa-user-doctor"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="#" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="#" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-gear"
+            ></i></a>
+        </li>
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <div class="app-section__controls mb-4 w-full">
+        <a href="/doctor" class="inline-flex items-center py-2 px-4 mr-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+          Trở về
+        </a>
+      </div>
+      <h2 class="app-section__header">Hồ sơ cá nhân</h2>
+      <div class="app-section__content">
+        <form id="doctor-resume-form" class="" method="post" action="/doctor/changeResume">
+          <input  name="id" type="text" value="{{resume.id}}" hidden >
+          
+          
+          <div class="is-row">
+            <div class="medicals__input-field is-half ">
+              <label for="title-edit" class="block mb-2 text-sm font-medium text-gray-900">Tiêu đề</label>
+              <div class="relative">
+                <input type="text" id="title-edit" name="title" class="medicals__input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Bác sĩ..." value="{{resume.title}}">
+              </div>
+            </div>
+            
+          </div>
+          <div class="is-row block">
+            
+            <label for="content-edit" class="block mb-2 text-sm font-medium text-gray-900 ">Giới thiệu ngắn về bản thân</label>
+            <textarea id="content-edit" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Tôi tên là...">{{resume.description}}</textarea>
+
+
+          </div>
+          
+          <div class="is-row flex justify-end">
+            <button class="btn--primary mr-4 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5   py-2.5 text-center" type="button" data-modal-toggle="update-profile-confirm-modal">
+              Cập nhật
+            </button>
+            
+        
+            {{!-- <a href="#update-profile-confirm-modal" class="btn--primary" rel="modal:open">Cập nhật</a>
+            <a href="#" id="cancel-update-profile" class="btn--primary ml-3">Hủy bỏ</a> --}}
+          </div>
+          <div id="update-profile-confirm-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow ">
+                    <!-- Modal header -->
+                    <div class="flex justify-between items-start p-5 rounded-t border-b ">
+                        <h3 class="text-xl font-semibold text-gray-900 lg:text-2xl ">
+                            Bạn có muốn cập nhật thông tin hồ sơ chứ?
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="update-profile-confirm-modal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <p class="text-base leading-relaxed text-gray-500 ">
+                          Bằng việc chọn "Xác nhận", mọi thông tin thay đổi sẽ được lưu vào dữ liệu. Bạn có chắc chắn với các thông tin trên?
+                        </p>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 ">
+                        <button form="doctor-resume-form" data-modal-toggle="update-profile-confirm-modal" type="submit" class="btn--primary text-white  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Xác nhận</button>
+                        <button data-modal-toggle="update-profile-confirm-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+          {{!-- <div id="update-profile-confirm-modal" class="modal overflow-hidden">
+            <p>Bạn có muốn xóa </p>
+            <button id="submit-update-profile-form" type="submit" class="btn--primary" form="profile-edit-form">Xác Nhận Thay Đổi</button>
+          </div> --}}
+          
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src='../script/uploadFile.js'></script>
+
+{{!-- <div class="main-profile" style="display: flex">
+      <div class="left-container">
+    {{>nav_doctor}}
+  </div>
+  <div class="right-container">
+      <h1>Edit Profile</h1>
+  <br>
+  <h1>Xu Của bạn : {{account.balance}} Xu</h1>
+  <br>
+
+  <br>
+        <a href="/auth/forgotAccount" class="btn btn-primary">Thay Đổi Mật Khẩu</a>
+  <div class="container"> 
+      <div class="row">
+      <form class="col s12" method="post" action="/doctor/changeResume">
+        <input  name="id" type="text" value="{{resume.id}}" hidden >
+        <div class="row">
+          <div class="input-field col s12">
+            <input  value="{{resume.title}}" name="title"  type="text" class="validate">
+            <label for="">Tiêu Đề</label>
+          </div>
+        </div>
+        <div class="row">
+        <div class="input-field col s12">
+          <textarea style="width:350px; height:80px;" cols="42" rows="5"  id="description" class="materialize-textarea" name="description">
+              {{resume.description}}
+          </textarea>
+          <label for="description">Mô Tả</label>
+        </div>
+      </div>
+        <button onclick="return confirm('Bạn có chắc là bạn muốn thay đổi thông tin cá nhân của mình ?')" type="submit" class=""> Xác Nhận Thay Đổi</button>
+      </form>
+    </div>
+  </div>
+  </div>  
+</div> --}}

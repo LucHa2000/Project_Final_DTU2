@@ -1,0 +1,71 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+          <li class="medicals__sidenav__item medicals__sidenav__item">
+            {{#if userLogin}}
+          <a href="" id="schedule-user" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+
+            {{else}}
+            <a href="" id="schedule-doctor" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+            {{/if}}
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-user-doctor"
+            title="Danh sách bác sĩ"></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            title="Danh sách cuộc họp"></i></a>
+        </li>
+          <li class="medicals__sidenav__item medicals__sidenav__item">
+              {{#if userLogin}}
+          <a href="/user" class="medicals__sidenav__link">
+          <i
+          class="medicals__sidenav__icon medicals__sidenav__icon fa-solid fa-gear"
+            ></i></a>
+            {{else}}
+              {{#if doctorLogin}}
+                  <a href="/doctor" class="medicals__sidenav__link">
+              <i
+              class="medicals__sidenav__icon medicals__sidenav__icon fa-solid fa-gear"
+                ></i></a>
+                 {{/if}}
+               {{/if}}
+        </li>
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <div class="app-section__controls mb-4 w-full">
+        <a href="/" class="inline-flex items-center py-2 px-4 mr-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+          Trở về
+        </a>
+      </div>
+      <div class="app-section__content">
+        <div class="doctor-list flex w-full flex-wrap">
+          {{#each clinics}}
+            <div class="medicals__card block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 m-4  ">
+            <img
+                src="../uploads/{{this.image}}"
+                alt="image"
+                class="carousel-cell__image w-full h-[200px]"
+            />
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 mt-2 ">{{this.name}}</h5>
+            <a href="/clinics/{{this.id}}" class="btn--primary">Xem danh sách bác sĩ</a>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src = "../script/handleLinkSchedule.js"></script>

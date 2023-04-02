@@ -1,0 +1,109 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+      <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+            {{#if userLogin}}
+          <a href="" id="schedule-user" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+
+            {{else}}
+            <a href="" id="schedule-doctor" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+            {{/if}}
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-user-doctor"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            ></i></a>
+        </li>
+          <li class="medicals__sidenav__item medicals__sidenav__item">
+              {{#if userLogin}}
+          <a href="/user" class="medicals__sidenav__link">
+          <i
+          class="medicals__sidenav__icon medicals__sidenav__icon fa-solid fa-gear"
+            ></i></a>
+            {{else}}
+              {{#if doctorLogin}}
+                  <a href="/doctor" class="medicals__sidenav__link">
+              <i
+              class="medicals__sidenav__icon medicals__sidenav__icon fa-solid fa-gear"
+                ></i></a>
+                 {{/if}}
+               {{/if}}
+        </li>
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <h2 class="app-section__header">Lịch sử giao dịch</h2>
+      <div class="app-section__content mt-4">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="w-full text-sm text-left text-gray-500 mt-4 ">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                  <tr>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                         NGÀY
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          TIÊU ĐỀ
+                      </th>
+                      
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          BẮT ĐẦU
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                         KẾT THÚC
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                         GIÁ
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                         TRẠNG THÁI
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+              {{#if appointments}}
+                {{#each appointments}}
+                  <tr class="bg-white border-b hover:bg-gray-50">
+                      <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                          {{this.date}}
+                      </td>
+                      <th scope="row" class="px-6 py-4 ">
+                          {{this.title}}
+                      </th>
+                      
+                      <td class="px-6 py-4">
+                          {{this.startTime}}
+                      </td>
+                      <td class="px-6 py-4">
+                         {{this.endTime}}
+                      </td>
+                       <td class="px-6 py-4">
+                          {{this.balance}} Xu
+                      </td>
+                      <td class="px-6 py-4">
+                         {{statusIsCancel this.isCanceled}}
+                      </td>
+                  </tr>
+                {{/each}}
+              {{else}}
+               <h4>Hiện tại chưa có lịch nào</h4>
+              {{/if}}
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+</div>
+<script src = "../script/handleLinkSchedule.js"></script>

@@ -1,0 +1,160 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+           {{#if userLogin}}
+          <a href="" id="schedule-user" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+
+            {{else}}
+            <a href="" id="schedule-doctor" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+            {{/if}}
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon  fa-solid fa-user-doctor"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            ></i></a>
+        </li>
+      
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+              {{#if userLogin}}
+          <a href="/user" class="medicals__sidenav__link">
+          <i
+          class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-gear"
+            ></i></a>
+            {{else}}
+              <a href="/doctor" class="medicals__sidenav__link">
+          <i
+          class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-gear"
+            ></i></a>
+               {{/if}}
+        </li>
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <h2 class="app-section__header">Trang cá nhân</h2>
+      <div class="app-section__content">
+        <div >
+          <input  name="id" type="text" value="{{account.id}}" hidden >
+          <div class="is-row flex items-center justify-center">
+           
+              <div class="relative">
+                <img id="profile-avatar" class="w-36 h-36 rounded-full" src="../uploads/{{account.image}}" alt="">
+                
+              </div>
+            
+            
+          </div>
+          <div class="is-row">
+            <div class=" is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Xu của bạn</label>
+              <div class="relative">
+                  <p class="text-xl">{{account.balance}}</p>
+              </div>
+              <a href="#" class="btn--primary mt-2 block text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm text-center font-medium" data-modal-toggle="paymentModal">Nạp thêm xu</a>
+              
+            </div>
+            
+            
+          </div>
+            <hr class="divider--dash">
+          <div class="is-row">
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Tên</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.firstName}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Họ</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.lastName}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Email</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.email}}</p>
+              </div>
+            </div>
+            
+          </div>
+          <div class="is-row">
+            <div class="is-one-third">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Số điện thoại</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.phoneNumber}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Địa chỉ</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.address}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+                <label class="block mb-2 text-sm  text-gray-900 font-bold">Giới Tính</label>
+              <div class="relative">
+                <p id="gender" name="gender" class="">{{convertGenderToText account.gender}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="is-row flex justify-end">
+            <a href="/user/updateAccount" class="btn--primary mr-4 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5   py-2.5 text-center" type="button" >
+              Cập nhật
+            </a>
+        
+          </div>
+          
+          
+          
+        </div>
+
+        </div>
+        
+      </div>
+    </div>
+    
+    <div id="paymentModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+      <div class="relative w-full h-full max-w-2xl p-4 md:h-auto">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow  ">
+              <!-- Modal header -->
+              <div class="flex items-start justify-between p-4 border-b rounded-t ">
+                  <h3 class="text-xl font-semibold text-gray-900 ">
+                      Nạp xu vào tài khoản
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="paymentModal">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                  </button>
+              </div>
+              <!-- Modal body -->
+              <form class="p-6 space-y-6" action='/payment/pay' method='POST' id="payment_form">
+                <div>
+                  <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 ">Số xu</label>
+                  <input type="number" id="amount" name="amount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="200" required>
+              </div>
+              </form>
+              <!-- Modal footer -->
+              <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
+                  <button form="payment_form" data-modal-toggle="paymentModal" type="submit" class="btn--primary bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto ">Xác nhận</button>
+                  
+              </div>
+          </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src = "../script/handleLinkSchedule.js"></script>

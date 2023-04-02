@@ -1,0 +1,296 @@
+<style>
+  .message-sender{ text-align: right; } .message-receiver{ text-align: left; }
+</style>
+
+
+
+
+<style>
+   .message-sender{
+      text-align: right;
+   }
+   .message-receiver{
+     text-align: left;
+   }
+</style>
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+            {{#if userLogin}}
+          <a href="" id="schedule-user" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+
+            {{else}}
+            <a href="" id="schedule-doctor" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+            {{/if}}
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon  fa-solid fa-user-doctor"
+            title="Danh sách bác sĩ"></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat medicals__sidenav__icon--active"
+            title="Danh sách cuộc họp"></i></a>
+        </li>
+        
+      </ul>
+    </div>
+    <div class="app-section flex">
+      <div class="medicals__inbox-list w-1/4 h-full overflow-y-scroll">
+        <div class="medicals__inbox-list__header pb-3 flex items-center justify-between">
+          <h3 class="font-bold">Danh sách cuộc họp</h3>
+        </div>
+        <ul class="">
+          {{#each rooms}}
+            <li class="user-chat medicals__inbox-list__item w-full " id={{this.id}}>
+              <a class="medicals__inbox-list__item__link" href="/inbox/{{this.title}}" id="{{this.title}}">
+                <h4 class="font-bold medicals__inbox-list__item__title">{{this.title}}</h4>
+                <p class="medicals__inbox-list__item__desc">{{this.date}}</p>
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="medicals__inbox-content w-full h-full">
+        {{!-- <h1>Your Account :</h1>
+        <h1 class="accountName">{{account.firstName}} {{account.lastName}}</h1>
+        <h1 class="accountID hide" >{{account.id}}</h1> --}}
+        <div class="medicals__inbox-content__header">
+          {{!-- <h1> Room :  </h1> --}}
+          {{!-- <ul>
+              <li class="user-chat btn"  id="roomName">
+                {{account.room}}
+              </li>
+              <li class="user-chat btn hide" id="roomID" >
+                {{roomID}}
+              </li>
+            
+              <br>       
+          </ul> --}}
+          <h3 class="font-bold mx-auto text-center"> {{account.room}} </h3>
+        </div>
+        <div class="medicals__inbox-content__content ">
+          <div class='container'>
+            {{!-- <h1> Register</h1> --}}
+            <div class='row hidden'>
+              <div class='col s12'>
+                <div class='row'>
+                  <h1>Your Account :</h1>
+                  <h1 class='accountName'>{{account.firstName}} {{account.lastName}}</h1>
+                  <h1 class='accountID hide'>{{account.id}}</h1>
+                  <div>
+                    <h1> Room : </h1>
+                    <ul>
+                      <li class='user-chat btn' id='roomName'>
+                        {{account.room}}
+                      </li>
+                      <li class='user-chat btn hide' id='roomID'>
+                        {{roomID}}
+                      </li>
+                      <br />
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class='inbox-container flex flex-col w-full h-full'>
+              
+              {{! display conversation }}
+              <div class='row w-full flex-2 overflow-y-scroll' id="xconversation-container">
+                <div class='col w-full'>
+                  {{!-- <h1>Conversation</h1> --}}
+                  <div class='display-conversation-container overflow-y-scroll mx-4' id="">
+                    <ul class='collection with-header chat-container'>
+                      {{#each messages}}
+                        <li class='collection-item my-2 hover:bg-gray-200 p-2 rounded-lg'>
+                          <div class="flex justify-between">
+                            <p class='nameUser font-bold text-sm'>
+                              {{this.userName}}
+                            </p>
+                            <p class="font-normal text-xs text-gray-500">{{formatDateTime this.createdAt}}</p>
+
+                          </div>
+                           <p class="">{{this.message}}</p>
+                        </li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {{! chatting container }}
+              <div class='row chatting-container mb-2 flex-1 w-full flex items-end '>
+                <div class='row w-full'>
+                  <div id='room-container'>
+                  </div>
+                  <div class='input-field w-full mx-4 flex'>
+                    {{!-- <input placeholder='Nhập tin nhắn' id='message-inbox' type='text' class='validate' />
+                    <label>Tin nhắn</label> --}}
+                    <input type="text" id="message-inbox" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Nhập tin nhắn" required>
+
+                    <div class="chatting-container__buttons flex justify-end mx-4">
+                      {{!-- <a class='waves-effect waves-light btn--primary modal-trigger w-[80px] h-[50px]' href='#icon-modal'>
+                        <span class='material-icons material-icons-light'>emoji_emotions</span>
+                      </a> --}}
+                      <button class='btn--primary w-[80px] h-[50px]' id='send-message'>Gửi</button>
+
+                    </div>
+                  </div>
+                </div>
+                {{! <div class="row">
+                    <h1>send image</h1>
+                    <input type="file" id="uploadfile">
+                  </div> }}
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </main>
+</div>  
+    
+        
+
+
+
+{{!-- modal icon --}}
+<div id="icon-modal" class="modal">
+  <div class="modal-content center">
+    <h4 class="center">Emoticon</h4>
+    <img class='image-emotion modal-close' src='../emoticon/angry-face-with-horns_1f47f.png' >
+    <img class='image-emotion modal-close' src='../emoticon/face-holding-back-tears_1f979.png' >
+    <img class='image-emotion modal-close' src='../emoticon/smiling-face-with-heart-eyes_1f60d.png' >
+    <img class='image-emotion modal-close' src='../emoticon/hot-face_1f975.png' >
+    <img class='image-emotion modal-close' src='../emoticon/cat-face_1f431.png'>
+    <img class='image-emotion modal-close' src='../emoticon/christmas-tree_1f384.png'>
+    <img class='image-emotion modal-close' src='../emoticon/fire_1f525.png' >
+    <img class='image-emotion modal-close' src='../emoticon/wrapped-gift_1f381.png' >
+    <img class='image-emotion modal-close' src='../emoticon/person-surfing_1f3c4.png'>
+    <img class='image-emotion modal-close' src='../emoticon/red-heart_2764-fe0f.png'>
+    <img class='image-emotion modal-close' src='../emoticon/foggy_1f301.png' >
+    <img class='image-emotion modal-close' src='../emoticon/sparkles_2728.png' >
+    </div>
+
+    <script src="../socket.io/socket.io.js"></script>
+    <script src = "../script/inbox.js"></script>
+    
+</div>
+<script>
+  $("#xconversation-container").animate({ scrollTop: $('#xconversation-container').prop("scrollHeight")}, 1000);
+  $('#send-message').on('click', function() {
+    $("#xconversation-container").animate({ scrollTop: $('#xconversation-container').prop("scrollHeight")}, 1000);
+  })
+  $('#message-inbox').keydown(function (e) {
+    if (e.keyCode === 13) {
+      $('#send-message').click();
+    }
+  })
+</script>
+
+
+{{!-- <div class='container'>
+
+  <h1> Register</h1>
+  <div class='row'>
+    <div class='col s12'>
+      <div class='row'>
+        <h1>Your Account :</h1>
+        <h1 class='accountName'>{{account.firstName}} {{account.lastName}}</h1>
+        <h1 class='accountID hide'>{{account.id}}</h1>
+        <div>
+          <h1> Room : </h1>
+          <ul>
+            <li class='user-chat btn' id='roomName'>
+              {{account.room}}
+            </li>
+            <li class='user-chat btn hide' id='roomID'>
+              {{roomID}}
+            </li>
+
+            <br />
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div> --}}
+
+  {{!-- <div class='inbox-container'>
+    {{! chatting container }}
+    <div class='row chatting-container'>
+      <div class='row'>
+        <div id='room-container'>
+
+        </div>
+        <div class='input-field col s6'>
+          <input placeholder='Placeholder' id='message-inbox' type='text' class='validate' />
+          <a class='waves-effect waves-light btn modal-trigger' href='#icon-modal'>
+            <span class='material-icons material-icons-light'>emoji_emotions</span>
+          </a>
+          <label>Message</label>
+          <button class='btn' id='send-message'>send message</button>
+        </div>
+      </div>
+      {{! <div class="row">
+          <h1>send image</h1>
+           <input type="file" id="uploadfile">
+        </div> }}
+    </div>
+    {{! display conversation }}
+    <div class='row'>
+      <div class='col s6'>
+        <h1>Conversation</h1>
+        <div class='display-conversation-container'>
+          <ul class='collection with-header chat-container'>
+            {{#each messages}}
+              <li class='collection-item'>
+                <p class='nameUser red-text text-darken-2'>
+                  {{this.userName}}
+                </p>
+                {{this.message}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{{! modal icon }}
+<div id='icon-modal' class='modal'>
+  <div class='modal-content center'>
+    <h4 class='center'>Emoticon</h4>
+    <img class='image-emotion modal-close' src='../emoticon/angry-face-with-horns_1f47f.png' />
+    <img class='image-emotion modal-close' src='../emoticon/face-holding-back-tears_1f979.png' />
+    <img
+      class='image-emotion modal-close'
+      src='../emoticon/smiling-face-with-heart-eyes_1f60d.png'
+    />
+    <img class='image-emotion modal-close' src='../emoticon/hot-face_1f975.png' />
+    <img class='image-emotion modal-close' src='../emoticon/cat-face_1f431.png' />
+    <img class='image-emotion modal-close' src='../emoticon/christmas-tree_1f384.png' />
+    <img class='image-emotion modal-close' src='../emoticon/fire_1f525.png' />
+    <img class='image-emotion modal-close' src='../emoticon/wrapped-gift_1f381.png' />
+    <img class='image-emotion modal-close' src='../emoticon/person-surfing_1f3c4.png' />
+    <img class='image-emotion modal-close' src='../emoticon/red-heart_2764-fe0f.png' />
+    <img class='image-emotion modal-close' src='../emoticon/foggy_1f301.png' />
+    <img class='image-emotion modal-close' src='../emoticon/sparkles_2728.png' />
+  </div>
+
+  <script src='../socket.io/socket.io.js'></script>
+  <script src='../script/inbox.js'></script>
+</div> --}}
+
+<script src = "../script/handleLinkSchedule.js"></script>

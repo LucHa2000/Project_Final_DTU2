@@ -1,0 +1,137 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          {{#if userLogin}}
+          <a href="" id="schedule-user" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+
+            {{else}}
+            <a href="" id="schedule-doctor" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon"
+            title="Lịch cá nhân"></i></a>
+            {{/if}}
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon  fa-solid fa-user-doctor"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/user" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-gear"
+            ></i></a>
+        </li>
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <h2 class="app-section__header">Trang cá nhân</h2>
+      <div class="app-section__content">
+        <div >
+          <input  name="id" type="text" value="{{account.id}}" hidden >
+          <div class="is-row flex items-center justify-center">
+           
+              <div class="relative">
+                <img id="profile-avatar" class="w-36 h-36 rounded-full" src="../uploads/{{account.image}}" alt="">
+                  <span class="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-{{activeColorFollowStatus account.status}}-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              </div>
+             
+             {{!-- status  --}}
+                    
+          </div>
+          <div class="is-row">
+                <div class="is-full ">
+                  <form action="/doctor/changeStatus" method="GET">
+                      <label for="default-toggle" class="relative inline-flex items-center cursor-pointer">                   
+                      <input onchange="this.form.submit()" type="checkbox"  value="" id="default-toggle" class="sr-only peer"  {{checkedFollowStatus account.status}}  name="active-account">
+                      <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      <span class="ml-3 text-sm font-medium text-gray-900 ">Trạng Thái</span>
+                    </form>
+                  </label>  
+            </div>
+          </div>
+          <div class="is-row">
+            <div class="is-one-third ">
+               <label class="block mb-2 text-sm text-gray-900 font-bold">Xu của bạn</label>
+              <div class="relative">
+                  <p class="text-xl">{{account.balance}}</p>
+              </div>
+            </div>
+           <div class="is-one-third ">
+                <label class="block mb-2 text-sm  text-gray-900 font-bold">Giới Tính</label>
+              <div class="relative">
+                <p id="gender" name="gender" class="">{{convertGenderToText account.gender}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="is-row">
+            
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Tên</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.firstName}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Họ</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.lastName}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Email</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.email}}</p>
+              </div>
+            </div>
+            
+          </div>
+          <div class="is-row">
+            <div class="is-one-third">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Số điện thoại</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.phoneNumber}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Địa chỉ</label>
+              <div class="relative">
+                <p id="first-name" name="firstName" class="">{{account.address}}</p>
+              </div>
+            </div>
+            <div class="is-one-third ">
+              <label class="block mb-2 text-sm  text-gray-900 font-bold">Hồ sơ</label>
+              <div class="relative">
+                <a href="/doctor/resume" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded">Xem hồ sơ của bạn</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="is-row flex justify-end">
+            <a href="/doctor/updateAccount" class="btn--primary mr-4 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5   py-2.5 text-center" type="button" >
+              Cập nhật
+            </a>
+        
+          </div>
+          
+          
+          
+        </div>
+
+        </div>
+        
+      </div>
+    </div>
+    
+  </main>
+</div>
+<script src = "../script/handleLinkSchedule.js"></script>

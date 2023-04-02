@@ -1,0 +1,164 @@
+{{>header}}
+  <main id="main" class="detai-post-container container">
+    <div class="row">
+        <div class="col s12 push-l2">
+             <div id="to-scroll-when-comment" class="post-card">
+      <div class="post-info">
+        <div class="left">
+          <img src="../uploads/{{post.userpost_img}}" alt="" class="post-info-avatar">
+          <span class="post-info-username">@{{post.username}}</span>
+        </div>
+      </div>
+        <span class="post-info-date right">{{converDateNewsfeed post.post_date}}</span>
+      <div class="post-content" >
+        <h2>{{post.post_content}}</h2>
+        <div class="post-img center" >
+          <img src="../uploads/{{nonImage post.post_img}}">
+        </div>
+      </div>
+      <div class="post-footer">
+        <div class="post-reacts">
+          <a data-id ={{post.post_id}} class=" modal-trigger btn-react"  href="#icon-modal">
+            <img src="../emoticon/{{ emotionReact icon_id}}" style=""  alt="">
+          </a>
+           <a id="link-post" class=" modal-trigger btn-react"  href="/post/{{post.post_id}}">
+            <img src="../emoticon/cmt-icon.png" style=""  alt="">
+          </a>
+           <a  class=" modal-trigger btn-react"  onclick="copyToClipboard('#link-post')">
+            <img src="../emoticon/share-icon.png" style=""  alt="">
+              
+          </a>
+        </div>
+         <p> <span>{{post.countReact}}</span> reacted this post</p>
+         <a  href="#react-modal" class=" modal-trigger"> See who reacted this post</a>
+        <div class="post-comments-container" style= "">
+          {{#each comments}}
+          <div class="post-comment ">
+            <div class="post-comment-username">
+              <a href="">@{{this.username}}</a>
+               </div>
+            <div class="post-comment-content">{{this.comment_content}}</div>
+          <a class="modal-trigger n-active btn btn-reply btn-comment-function" href="#reply-modal"  data-id ={{this.comment_id}}>Reply</a>
+            <a onclick="return confirm('Are you sure delete this comment ?')" class="btn btn-active btn-comment-function" href ="/comment/{{this.comment_id}}/delete">Delete</a>
+            {{!-- reply comment --}}
+            {{#each this.reply}}
+            <div class="post-comment post-comment-reply" >
+                  <div class="post-comment-username" >
+                    <a href="">@{{this.username}}</a>
+                  </div>
+                  <div class="post-comment-content">{{this.reply_content}}</div>
+            </div>
+            {{/each}}
+          </div>
+          {{/each}}
+         
+          <form class="post-input-form" action="/comment/{{post.post_id}}" method= "POST">
+            <div class="input-field">
+            <input type="text" placeholder="Enter comment..." name="comment_content">
+            </div>
+            <button type="submit" class="btn-active" style="cursor: pointer" ><span class="material-icons material-icons-light">send</span></button>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </main>
+  {{!-- modal detail react --}}
+<div id="react-modal" class="modal" style="">
+  <div class="modal-content">
+      {{#each reacts}}
+         <div class="detail-react-block">
+             <p>@{{this.username}}</p>
+            <img src="../emoticon/{{ emotionReact icon_id}}" class="" style=""  alt="">
+         </div>
+       
+        <br>
+        {{else}}
+        <h6>Nobody react post</h6>
+      {{/each}}
+  </div>
+ 
+</div>
+{{!-- modal reply comment --}}
+<div id="reply-modal" class="modal" style="">
+  <div class="modal-content">
+      <h6>Reply Post</h6>
+    <form class="reply-cmt-form" action="" method= "POST">
+            <div class="input-field">
+            <input type="text" placeholder="Enter reply comment..." name="reply_content">
+            </div>
+        <button type="submit" class="btn" style="cursor: pointer" ><span class="material-icons">send</span></button>
+    </form>
+  </div>
+ 
+</div>
+{{!-- modal react icon --}}
+<div id="icon-modal" class="modal" style="background : transparent">
+  <div class="modal-fixed-footer center ">
+    {{!-- <h4 class="center">Emoticon</h4> --}}
+    <a href="" class="btn-react-heart">
+      <img   class='image-emotion-react-post modal-close' src='../emoticon/red-heart_2764-fe0f.png'>
+    </a>
+    <a href="" class="btn-react-like">
+       <img class='image-emotion-react-post modal-close' src='../emoticon/like-react.png' >
+    </a>
+   <a href="" class="btn-react-smile">
+      <img class='image-emotion-react-post modal-close' src='../emoticon/haha-react.png' >
+   </a>
+    <a href="" class="btn-react-angry">
+      <img class='image-emotion-react-post modal-close' src='../emoticon/angry-icon.png' >
+   </a>
+    <a href="" class="btn-react-lovelove">
+      <img class='image-emotion-react-post modal-close' src='../emoticon/lovelove-icon.png' >
+   </a>
+    <a href="" class="btn-react-cry">
+      <img class='image-emotion-react-post modal-close' src='../emoticon/cry-icon.png' >
+   </a>
+   
+    </div>
+</div>
+{{!-- display img when add --}}
+<script>
+ $(document).ready(function(){
+    $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-heart").attr("href", "/post/react/1/"+dataId)
+    });
+       $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-like").attr("href", "/post/react/2/"+dataId)
+    });
+      $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-smile").attr("href", "/post/react/3/"+dataId)
+    });
+     $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-angry").attr("href", "/post/react/4/"+dataId)
+    });
+     $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-lovelove").attr("href", "/post/react/5/"+dataId)
+    });
+     $(".btn-react").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".btn-react-cry").attr("href", "/post/react/6/"+dataId)
+    });
+});
+</script>
+</script>
+<script src="../script/share_post.js">
+</script>
+{{!-- reply cmt --}}
+<script>
+ $(document).ready(function(){
+    $(".btn-reply").on("click", function(){
+        var dataId = $(this).attr("data-id");
+          $(".reply-cmt-form").attr("action", "/comment/"+dataId+"/reply")
+    });
+});
+</script>
+
+    
+  

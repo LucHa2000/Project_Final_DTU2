@@ -1,0 +1,131 @@
+<div class="flex">
+
+  {{>header_admin}}
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"
+  >
+
+  </script>
+      <div class="container">
+      <div class="row">
+        <div class="col s6">
+              {{!-- <h5 class="center">Pick Statistics</h5> --}}
+            {{!-- <div class="col s6">
+                <input type="datetime-local" id="end_date" name="start_date" required="required">
+          <span class="helper-text" data-error="This field cannot be left blank">Start Date*</span>
+            <input type="datetime-local" id="end_date" name="end_date" required="required">
+          <span class="helper-text" data-error="This field cannot be left blank">End Date*</span> 
+            </div> --}}
+              <h1>Start Date</h1>
+              <div class="relative max-w-sm">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+              </div>
+              <input datepickerTime id="startTime" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+              </div>
+
+              <h1>End Date</h1>
+              <div class="relative max-w-sm">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+              </div>
+              <input datepickerTime id="endTime" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+              </div>
+              <div></div>
+              <br>
+            <button onclick="searchTransaction()" id="btn-search"class=" btn--primary waves-effect waves-light btnCreate" >Search</button>
+                      {{!-- <button href="/admin"class="btn--primary waves-effect waves-light btnCreate">Reset</button> --}}
+          
+                  <div class="col s6 center">
+                    <br>
+              
+          {{!-- <div class="">Revenue: <span class="total-price"></span></div>
+          <div class="">Quantity: <span class="total-quantity"></div> --}}
+        
+                  </div>
+            <div class="p-4 bg-gray-50 rounded-lg max-h-[90vh] min-h-[90vh] overflow-y-scroll" id="account-management" role="tabpanel" aria-labelledby="account-management-tab">
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 mt-4">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          No
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Số tiền
+                      </th>
+                      {{!-- <th scope="col" class="px-6 py-3 font-bold">
+                          Bác Sĩ
+                      </th>
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Bệnh Nhân
+                      </th> --}}
+                      <th scope="col" class="px-6 py-3 font-bold">
+                          Ngày đặt
+                      </th>
+                  </tr>
+              </thead>
+              <tbody id="myTable">
+                {{#each transactionHistory}}
+                  <tr class="bg-white border-b  hover:bg-gray-50 ">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                        {{sum @index}}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{displayPayment this.balance}}$
+                    </td>
+                    <td class="px-6 py-4">
+                        {{this.createdAt}}
+                    </td>
+                  </tr>
+                  {{else}}
+                    <tr>
+                      <td colspan="6" class="center text-center">
+                          Không có khoa
+                      </td>
+                    </tr>
+                  {{/each}}
+              </tbody>
+            </table>
+            <h1 id="totalPayment" style="padding: 20px;"> Total : {{totalPayment}}$</h1>  
+          </div>
+        </div>
+        </div>
+    
+        </div>
+
+      </div>
+
+  <script>  
+  function searchTransaction(){
+          var total = 0
+              var rows = $('table tr')
+    const startTime = document.getElementById("startTime").value.trim()
+    const endTime = document.getElementById("endTime").value.trim()
+
+    if (startTime > endTime || startTime == '' || endTime == '') {
+      alert('Vui lòng chọn thời gian tìm kiếm phù hợp !')
+    } else {
+          rows.show().filter(function() {
+        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        let datePosition =text.trim().indexOf(' ',text.trim().indexOf(' ') +1)
+        let date = text.trim().slice(datePosition)
+        if(date.slice(0,11) != ' tiền ngày ' && !(date.slice(0,11).trim() >= startTime && date.slice(0,11).trim() < endTime)){
+          return true;
+        } else {
+        let moneyPositionStart = text.trim().indexOf(' ')
+        let moneyPositionEnd = text.trim().indexOf(' ',moneyPositionStart + 1)
+        let money = text.slice(moneyPositionStart+1, moneyPositionEnd).trim()
+        
+        if(money != 's'){
+          total = total + parseFloat(money) 
+        }
+        }
+    }).hide();
+    document.getElementById('totalPayment').innerHTML = `Total : ${total}$`
+    }
+  }
+  </script>
+          
+  {{>footer_admin}}
+</div>

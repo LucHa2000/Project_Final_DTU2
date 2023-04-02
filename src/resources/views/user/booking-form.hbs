@@ -1,0 +1,132 @@
+<div class="app-container flex flex-col homepage-container">
+    {{>nav}}
+    <main class="app__main flex w-full">
+        <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+            <ul class="medicals__sidenav__list flex flex-col justify-center">
+                <li class="medicals__sidenav__item medicals__sidenav__item">
+                    <a href="#" class="medicals__sidenav__link"><i
+                        class="fa-solid fa-calendar-days medicals__sidenav__icon"
+                    ></i></a>
+                </li>
+                <li class="medicals__sidenav__item medicals__sidenav__item">
+                    <a href="#" class="medicals__sidenav__link"><i
+                        class="medicals__sidenav__icon medicals__sidenav__icon--active fa-solid fa-user-doctor"
+                    ></i></a>
+                </li>
+                <li class="medicals__sidenav__item medicals__sidenav__item">
+                    <a href="#" class="medicals__sidenav__link"><i
+                        class="medicals__sidenav__icon fa-brands fa-rocketchat"
+                    ></i></a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="app-section overflow-y-scroll">
+            <div class="app-section__controls mb-4 w-full">
+                <a href="/detailDoctor/{{bookingDetail.doctor.id}}" class="inline-flex items-center py-2 px-4 mr-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                Trở về
+                </a>
+            </div>
+            <div class="app-container__section__header__img w-full flex flex-col items-center justify-center ">
+              
+              <div class="flex flex-col items-center pb-10">
+                <img class="mb-3 w-32 h-32 rounded-full shadow-lg" src="../uploads/{{bookingDetail.doctor.image}}" alt="{{bookingDetail.doctor.firstName}} {{bookingDetail.doctor.lastName}}"/>
+                <h5 class="text-2xl font-medium text-gray-900 ">{{bookingDetail.doctor.firstName}} {{bookingDetail.doctor.lastName}}</h5>
+              </div>
+            </div>
+            <div class="app-container__section__content">
+                {{! message when enter invalid time }}
+                
+
+                <form action="/booking/createAppointment" method="POST" id="booking_form">
+                    <div class="mb-5">
+                        <input type="text" name="id" value="" hidden/>
+                        <input type="text" name="doctorID" value="{{bookingDetail.doctor.id}}" hidden/>
+                        {{!-- <input class="w-full" type="text" name="serviceFee" value="{{bookingDetail.serviceFee}}" disabled> --}}
+                        <label for="appointment_fee" class="block mb-2 text-sm font-medium text-gray-900 ">Chi phí</label>
+                        <input name="serviceFee" type="text" id="appointment_fee" class="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="100.000 VND" value="{{bookingDetail.serviceFee}}" readonly>
+                    </div>
+                    <div class="grid gap-6 mb-6 lg:grid-cols-2">
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">Tên </label>
+                            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Emma Watson" value="{{bookingDetail.user.firstName}}" disabled>
+                        </div>
+                        <div>
+                            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Họ</label>
+                            <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Emma Watson" value=" {{bookingDetail.user.lastName}}" disabled>
+                        </div>
+                        <div>
+                            <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-900 ">Số điện thoại</label>
+                            <input type="text" id="phone_number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="0123-456-789" value="{{bookingDetail.user.phoneNumber}}" disabled>
+                        </div>
+                        <div>
+                            <label for="user_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
+                            <input type="text" id="user_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="0123-456-789" value="{{bookingDetail.user.email}}" disabled>
+                        </div>
+                        <div>
+                            <label for="appointment_title" class="block mb-2 text-sm font-medium text-gray-900 ">Tiêu đề cuộc hẹn <span class="medicals__errors text-xs " id="title-empty-error"></span>*</label>
+                            <input type="text" id="appointment_title" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Khám răng định kỳ" value="" required>
+                        </div>
+                        <div>
+                            <label for="appointment_date" class="block mb-2 text-sm font-medium text-gray-900 ">Ngày</label>
+                            <input type="text" id="appointment_date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" value="{{bookingDetail.date}}" readonly>
+                        </div>
+                        <div>
+           
+                            <label for="appointment_start_time" class="block mb-2 text-sm font-medium text-gray-900 ">Thời gian bắt đầu <span class="medicals__errors text-xs">{{errorMessage}}</span></label>
+                            <input type="text" id="appointment_start_time" name="startTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="08:00" value="{{bookingDetail.timeStart}}" readonly>
+                        </div>
+                        <div>
+                            <label for="appointment_end_time" class="block mb-2 text-sm font-medium text-gray-900 ">Thời gian kết thúc</label>
+                            <input type="text" id="appointment_end_time" name="endTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="08:00" value="{{bookingDetail.timeEnd}}" readonly>
+                        </div>
+                        
+                    </div>
+                    {{!-- <div>
+                        <input type="text" name="id" value="" hidden="true" >
+                        <input type="text" name="doctorID" value="{{bookingDetail.doctor.id}}" hidden="true">
+                        <input type="text" name="serviceFee" value="{{bookingDetail.serviceFee}}" readonly>
+                        <label>Full Name: </label>
+                        <input type="text" value="{{bookingDetail.user.firstName}} {{bookingDetail.user.lastName}}" readonly>
+                        <label>Phone Number: </label>
+                        <input type="text" value="{{bookingDetail.user.phoneNumber}}" readonly>
+                        <label>Email: </label>
+                        <input type="text" value="{{bookingDetail.user.email}}" readonly>
+                        <label>gender: </label>
+                        <input type="text" value="" readonly >
+                        <label >Address: </label>
+                        <input type="text" value="" readonly>
+                        <label >Title of appointment: </label>
+                        <input type="text" name="title" value="">
+                        <label >Date: </label>
+                        <input type="text" name="date" value="{{bookingDetail.date}}" readonly>
+                        <label >Time start: </label>
+                        <input type="text" name="startTime" value="{{bookingDetail.timeStart}}" readonly>
+                        <label >Time end: </label>
+                        <input type="text" name="endTime" value="{{bookingDetail.timeEnd}}" readonly>
+                    </div> --}}
+                    <div class="flex justify-end">
+                        <button
+                         class="btn--primary"
+                         type="submit"
+                         id="submit_booking"
+                         >Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+  </main>
+</div>
+<script>
+    var emptyError = `Bạn không thể để trống trường này` ;
+    $('#appointment_title').focus();
+    $('#appointment_title').on('focus', function () {
+        $('#title-empty-error').text('');
+    })
+    $('#submit_booking').on('click', function () {
+        if ( !$('#appointment_title').val()) {
+            $('#title-empty-error').text(emptyError);
+        }
+    })
+</script>

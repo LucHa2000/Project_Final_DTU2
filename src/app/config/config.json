@@ -1,0 +1,30 @@
+{
+  "development": {
+    "username": "root",
+    "password": "123123123",
+    "database": "final_db",
+    "host": "localhost",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "dateStrings": true,
+      "typeCast": true,
+      "timezone": "+07:00"
+    },
+    "timezone": "+07:00", 
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "root",
+    "password": "123123123",
+    "database": "database_test",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "123123123",
+    "database": "database_production",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}

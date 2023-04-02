@@ -1,0 +1,158 @@
+<div class="app-container flex flex-col homepage-container">
+  {{>nav}}
+  <main class="app__main flex w-full">
+    <div class="medicals__sidenav max-w-[70px] mt-[100px]">
+      <ul class="medicals__sidenav__list flex flex-col justify-center">
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="#" class="medicals__sidenav__link"><i
+              class="fa-solid fa-calendar-days medicals__sidenav__icon  medicals__sidenav__icon--active"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon  fa-solid fa-user-doctor"
+            ></i></a>
+        </li>
+        <li class="medicals__sidenav__item medicals__sidenav__item">
+          <a href="/inbox" class="medicals__sidenav__link"><i
+              class="medicals__sidenav__icon fa-brands fa-rocketchat"
+            ></i></a>
+        </li>
+        
+      </ul>
+    </div>
+    <div class="app-section overflow-y-scroll">
+      <h2 class="app-section__header">Lịch cá nhân</h2>
+      <div class="app-section__content">
+        
+        <div class="schedule-list w-full">
+          <div class="is-row w-1/2">
+
+            <form action="/job" method="GET" class="app-container__input w-1/2 mx-5">
+              
+              <input
+              type="date"
+              name="date"
+              id="date"
+              value="{{defaultDate}}"
+              class="w-full block mr-4"/>
+            {{!-- <input
+              type="date"
+              name="date"
+              id="date"
+              value="{{defaultDate}}"
+              class="w-full hidden md:block"
+            /> --}}
+            <button type="submit">
+              <i class="fa-solid fa-magnifying-glass app-container__icon"></i>
+            </button>
+            </form>
+          </div>
+          <p class="font-bold my-5">Ngày: <span class="font-normal" id="current-date"></span></p>
+          <!-- ====================== https://tailwindui.com/components/application-ui/elements/dropdowns ====================== -->
+          <section
+              class="app-container__section grid gap-6 mb-6 lg:grid-cols-5"
+          >
+            {{#if userSchedule}}
+              {{#each userSchedule}}
+                <div class="medicals__card max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
+                  <div class="flex flex-col items-center pb-10">
+                    <img class="my-3 w-24 h-24 rounded-full shadow-lg" src="../uploads/{{this.userAvatar}}" alt="Bonnie image"/>
+                      <h5 class="mb-1 text-xl font-medium text-gray-900 ">{{this.userName}}</h5>
+                    {{!-- <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{this.title}}</h5> --}}
+                    {{!-- <p id="appointment_id" class="hidden">{{this.id}}</p> --}}
+                    <span class="text-sm text-gray-500 ">Bắt đầu: {{formatTime this.startTime}}</span>
+                    <span class="text-sm text-gray-500 ">Kết thúc: {{formatTime this.endTime}}</span>
+                    <span class="text-sm text-gray-500 ">Trạng Thái: {{statusIsCancel this.isCanceled}}</span>
+                    <div class="flex flex-col items-center mt-4 space-x-3 lg:mt-6 w-full justify-center">
+                      <div class="flex mt-4 space-x-3 lg:mt-6 w-full justify-center">
+
+                        <a href="/inbox/{{this.title}}" class="btn--primary inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 w-1/3">Nhắn tin</a>
+                        <a href="/callVideo" class="btn--primary inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 w-1/3">Gọi điện</a>
+                      </div>
+                      {{!-- <div class="mt-4 w-full flex justify-center">
+                        <a id="{{this.id}}" href="#deleteScheduleModal" class="cancel-btn text-center btn--secondary inline-flex items-center justify-center py-2 px-4 text-sm font-medium  text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 " data-modal-toggle="deleteScheduleModal">Huỷ</a>
+                      </div> --}}
+                      <div id="deleteScheduleModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                            <!-- Modal content -->
+                            <div class="relative bg-white rounded-lg shadow ">
+                                <!-- Modal header -->
+                                <div class="flex justify-between items-start p-5 rounded-t border-b ">
+                                    <h3 class="cancel_title text-xl font-semibold text-gray-900 lg:text-2xl ">
+                                        Bạn có chắc chắn muốn hủy lịch trên?
+                                    </h3>
+                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="deleteScheduleModal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                                    </button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-6 space-y-6">
+                                    <p class="cancel_content text-base leading-relaxed text-gray-500 ">
+                                      Bằng việc chọn "Xác nhận", lịch trên sẽ bị hủy và bạn sẽ được hoàn lại số xu
+                                    </p>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 ">
+                                    <a id="confirm_cancel_btn" href="/schedule/cancel/{{this.id}}" data-modal-toggle="deleteScheduleModal" type="submit" class="btn--primary text-white  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Xác nhận</a>
+                                    <button data-modal-toggle="deleteScheduleModal" type="button" class="model_cancel_btn  text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Hủy bỏ</button>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              {{/each}}
+            {{else}}
+              <div class="mt-8">
+                <p>Hiện không có lịch nào thuộc ngày trên</p>
+              </div>
+            {{/if}}
+          </section>
+          
+            
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+var date = $('#date').val();
+  $('#current-date').text($('#date').val())
+  $('#date').on('change', function () {
+    $('#current-date').text($('#date').val())
+  })
+  $('.cancel-btn').click(function () {
+    console.log('id', this.id);
+    var endTime = $(`.${this.id}_end_time`).text();
+    var startTime = $(`.${this.id}_start_time`).text();
+    var endDateTime = new Date(`${date} ${endTime}`);
+    var startDateTime = new Date(`${date} ${startTime}`);
+    var currentDateTime = new Date();
+    console.log(startDateTime)
+    
+    var isLessThan30Minutes = (startDateTime.getHours() - currentDateTime.getHours() == 0)  && (startDateTime.getMinutes() - currentDateTime.getMinutes() <= 30)
+    console.log('currentDateTime.getMinutes() - startDateTime.getMinutes() <= 30: ', startDateTime.getMinutes() - currentDateTime.getMinutes() );
+    console.log('startDateTime.getMinutes(): ', startDateTime.getMinutes());
+    console.log('currentDateTime.getMinutes(): ', currentDateTime.getMinutes());
+
+    console.log('isLessThan30Minutes: ', isLessThan30Minutes);
+    console.log(currentDateTime);
+    
+    if (startDateTime < currentDateTime && endDateTime < currentDateTime || isLessThan30Minutes ) {
+      $('.cancel_title').text(`Chú ý!`);
+      $('.cancel_content').text(`Bạn không thể hủy lịch này!`);
+      $('#confirm_cancel_btn').attr('href', `#`);
+      $('.model_cancel_btn').hide();
+    } else {
+      $('.cancel_title').text(`Bạn có chắc chắn muốn hủy lịch trên?`);
+      $('.cancel_content').text(`Bằng việc chọn "Xác nhận", lịch trên sẽ bị hủy và bạn sẽ được hoàn lại số xu`);
+      $('#confirm_cancel_btn').attr('href', `/schedule/cancel/${this.id}`);
+      $('.model_cancel_btn').show();
+    }
+  })
+</script>
+
+
